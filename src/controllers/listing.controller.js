@@ -146,16 +146,15 @@ export const updateListing = asyncHandler(async (req, res) => {
 export const deleteListing = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
-    
+ 
+      
 
     const listing = await Listing.findById(id);
     if (!listing) {
       throw new ApiError(404, "Listing not found");
     }
  
-   
-   
+     
     // ✅ Ensure only the vendor who created it can delete
     if (req.user.role !== "admin" && listing.vendorID.toString() !== req.user._id.toString()) {
       throw new ApiError(403, "Forbidden: Only the admin or the listing owner can delete this listing.");
